@@ -47,10 +47,13 @@ export default function Chat() {
     window.speechSynthesis?.cancel()
   }, [])
 
+  const stripTranslations = (text) =>
+    text.replace(/\([^)]*[a-zA-Z][^)]*\)/g, '').replace(/\s+/g, ' ').trim()
+
   const speak = (text, index) => {
     if (!window.speechSynthesis) return
     window.speechSynthesis.cancel()
-    const utter = new SpeechSynthesisUtterance(text)
+    const utter = new SpeechSynthesisUtterance(stripTranslations(text))
     utter.lang = 'ja-JP'
     utter.rate = 0.9
     utter.onstart = () => setSpeakingIndex(index)
